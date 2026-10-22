@@ -300,12 +300,25 @@ kbd {
   border: 1px solid var(--border); border-radius: 12px; background: var(--surface2);
   padding: 12px 14px; margin-bottom: 14px;
 }
-.bkash-tag {
-  display: inline-block; font-size: 11px; font-weight: 700; color: #e2136e;
-  background: rgb(226 19 110 / .1); border-radius: 999px; padding: 3px 10px; margin-bottom: 9px;
+/* v4.30: পেমেন্ট-মেথড চিপ (ব্র্যান্ড-রং) + Personal বেইজ — নম্বরের উপরে ও মাঝখানে */
+.pay-methods { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 10px; }
+.pm-chip {
+  font-size: 12px; font-weight: 800; letter-spacing: .2px;
+  padding: 5px 13px; border-radius: 999px; color: #fff;
+}
+.pm-bkash  { background: #e2136e; }   /* বিকাশ — গোলাপি */
+.pm-nagad  { background: #f26522; }   /* নগদ — কমলা */
+.pm-rocket { background: #8c3494; }   /* রকেট — বেগুনি */
+.pm-upay   { background: #0a9e5c; }   /* উপায় — সবুজ */
+.pay-mid { text-align: center; margin-bottom: 10px; }
+.personal-badge {
+  display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+  color: #fff; padding: 5px 18px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent1), var(--accent2));
+  box-shadow: 0 2px 8px rgb(255 0 102 / .35);
 }
 .bkash-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-.bkash-num { font: 700 24px/1 ui-monospace, "Courier New", monospace; letter-spacing: 1px; color: var(--text); }
+.bkash-num { font: 700 28px/1 ui-monospace, "Courier New", monospace; letter-spacing: 1px; color: var(--text); }
 .bkash-copy {
   border: 0; border-radius: 10px; padding: 9px 16px; font-weight: 700; font-size: 14px;
   cursor: pointer; color: #fff; background: linear-gradient(135deg, #e2136e, var(--accent1));
@@ -317,7 +330,7 @@ kbd {
 @media (max-width: 560px) {
   .donate-btn { padding: 8px 12px; font-size: 13px; gap: 5px; }
   .dn-bn { display: none; }
-  .bkash-num { font-size: 20px; }
+  .bkash-num { font-size: 22px; }
   .donate-card { padding: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -467,19 +480,26 @@ kbd {
     <h2 id="donateTitle">❤️ স্বেচ্ছায় সহযোগিতা করুন</h2>
     <p>এই টুল সবার জন্য <b>সম্পূর্ণ বিনামূল্যে</b> এবং চিরকাল তাই থাকবে। ডোনেশন সম্পূর্ণ ঐচ্ছিক — না দিলেও কোনো ফিচার বা সুবিধা কমবে না। যাঁরা কাজটিকে মূল্যবান মনে করেন, তাঁদের সহযোগিতাই এই প্রকল্পের উন্নয়ন, রক্ষণাবেক্ষণ ও আপডেট অব্যাহত রাখে।</p>
     <div class="donate-bkash">
-      <span class="bkash-tag">বিকাশ (পার্সোনাল) · Send Money</span>
+      <!-- v4.30: চার পেমেন্ট মেথড (একই নম্বর) — ব্র্যান্ড-রঙের চিপ, সম্পূর্ণ অফলাইন (কোনো বাইরের লোগো/লিংক নয়) -->
+      <div class="pay-methods" role="list" aria-label="পেমেন্ট মেথড">
+        <span class="pm-chip pm-bkash" role="listitem">bKash</span>
+        <span class="pm-chip pm-nagad" role="listitem">Nagad</span>
+        <span class="pm-chip pm-rocket" role="listitem">Rocket</span>
+        <span class="pm-chip pm-upay" role="listitem">Upay</span>
+      </div>
+      <div class="pay-mid"><span class="personal-badge">Personal</span></div>
       <div class="bkash-row">
         <b id="donateNum" class="bkash-num">01721100716</b>
         <button id="donateCopy" class="bkash-copy">নম্বর কপি</button>
       </div>
     </div>
     <ol class="donate-steps">
-      <li>বিকাশ অ্যাপ খুলে <b>Send Money</b> নির্বাচন করুন</li>
-      <li>নম্বর দিন: <b>01721100716</b> (উপরের কপি বাটনও ব্যবহার করতে পারেন)</li>
+      <li>আপনার পছন্দের পেমেন্ট মেথড <b>বিকাশ, নগদ, রকেট অথবা উপায়</b>-এর অ্যাপ খুলুন অথবা নির্ধারিত ডায়াল কোড ব্যবহার করে <b>Send Money (সেন্ড মানি)</b> অপশনটি নির্বাচন করুন।</li>
+      <li>তারপর নম্বর দিন: <b>01721100716</b> (উপরের কপি বাটনও ব্যবহার করতে পারেন)</li>
       <li>আপনার ইচ্ছা ও সামর্থ্য অনুযায়ী পরিমাণ লিখুন</li>
-      <li>আপনার পিন দিয়ে লেনদেন সম্পন্ন করুন</li>
+      <li>আপনার পিন দিয়ে লেনদেন সম্পন্ন করুন।</li>
     </ol>
-    <p class="donate-note">অ্যাপ না থাকলে নিকটস্থ বিকাশ এজেন্ট/দোকান থেকেও Send Money করা যাবে। সহযোগিতার জন্য আন্তরিক ধন্যবাদ 🙏</p>
+    <p class="donate-note">অথবা আপনার নিকটস্থ <b>bKash + Nagad + Rocket + Upay</b> এজেন্ট/দোকান থেকেও Send Money করা যাবে। সহযোগিতার জন্য আন্তরিক ধন্যবাদ 🙏</p>
   </div>
 </div>
 <script>
@@ -2313,7 +2333,7 @@ async function convertDocx(buf, target, opts = {}) {
 
 /* ===== bundled: app.js ===== */
 /* আব্দুল্লাহ — UI layer (no jQuery, no globals, ES module) */
-const BUILD = 'v4.29 • ২২-১০-২০২৬';   // build stamp — স্ট্যাটাস/কনসোলে দেখায় কোন বিল্ড চলছে
+const BUILD = 'v4.31 • ২২-১০-২০২৬';   // build stamp — স্ট্যাটাস/কনসোলে দেখায় কোন বিল্ড চলছে
 
 
 
@@ -2703,10 +2723,10 @@ function removeWord(w) {
 $('wordAddBtn').addEventListener('click', addWord);
 $('wordInput').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addWord(); } });
 
-/* ---------- ডোনেট মডাল (v4.29): বিকাশ পার্সোনাল — নম্বর + কপি + নির্দেশনা ----------
- * ব্যক্তিগত বিকাশ নম্বরের কোনো পাবলিক পেমেন্ট-লিংক হয় না, তাই কাল্পনিক লিংক নয়;
- * নির্ভরযোগ্য পথ = অ্যাপে Send Money। ডোনেশন ঐচ্ছিক — কোনো ফিচার এর সাথে যুক্ত নয়। */
-const BKASH_NUM = '01721100716';
+/* ---------- ডোনেট মডাল (v4.29/v4.30): bKash+Nagad+Rocket+Upay Personal — একই নম্বর ----------
+ * ব্যক্তিগত নম্বরের কোনো পাবলিক পেমেন্ট-লিংক হয় না, তাই কাল্পনিক লিংক নয়;
+ * নির্ভরযোগ্য পথ = যেকোনো একটি অ্যাপে Send Money। ডোনেশন ঐচ্ছিক — কোনো ফিচার এর সাথে যুক্ত নয়। */
+const DONATE_NUM = '01721100716';
 const donateModal = $('donateModal');
 function openDonate() {
   donateModal.hidden = false;
@@ -2723,15 +2743,15 @@ donateModal.addEventListener('click', e => { if (e.target === donateModal) close
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !donateModal.hidden) closeDonate(); });
 $('donateCopy').addEventListener('click', async () => {
   try {
-    await navigator.clipboard.writeText(BKASH_NUM);
-    toast('বিকাশ নম্বর কপি হয়েছে ✓ — Send Money-তে পেস্ট করুন');
+    await navigator.clipboard.writeText(DONATE_NUM);
+    toast('নম্বর কপি হয়েছে ✓ — Send Money-তে পেস্ট করুন');
   } catch {
     const ta = document.createElement('textarea');
-    ta.value = BKASH_NUM;
+    ta.value = DONATE_NUM;
     if (document.body && document.body.appendChild) document.body.appendChild(ta);
     ta.select();
-    try { document.execCommand('copy'); toast('বিকাশ নম্বর কপি হয়েছে ✓ — Send Money-তে পেস্ট করুন'); }
-    catch { toast('কপি করা যায়নি — নম্বরটি মুখে লিখে নিন: ' + BKASH_NUM); }
+    try { document.execCommand('copy'); toast('নম্বর কপি হয়েছে ✓ — Send Money-তে পেস্ট করুন'); }
+    catch { toast('কপি করা যায়নি — নম্বরটি লিখে নিন: ' + DONATE_NUM); }
     if (ta.remove) ta.remove();
   }
 });
@@ -2768,5 +2788,5 @@ renderWords();
 setDir('b2u');   // ডিফল্ট: বিজয় → ইউনিকোড (অফিস ডকুমেন্টের সবচেয়ে সাধারণ চাহিদা)
 
 </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4e79fb67a1a0eed',t:'MTc5MjY2MjkwMA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
