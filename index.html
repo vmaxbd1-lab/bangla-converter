@@ -219,6 +219,10 @@ kbd {
 .dropzone b { color: var(--text); }
 .dropzone small { font-size: 12px; max-width: 60ch; line-height: 1.6; }
 .docx-status { margin: 10px 2px 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
+.docx-results { margin: 8px 2px 0; max-height: 190px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.docx-res { font-size: 12.5px; line-height: 1.5; padding: 5px 9px; border-radius: 8px; border: 1px solid rgba(128,128,128,.25); word-break: break-word; }
+.docx-res.ok  { color: #16a34a; }
+.docx-res.err { color: #e11d48; }
 .docx-status.busy { color: var(--accent2); font-weight: 600; }
 .docx-status.ok   { color: #16a34a; }
 .docx-status.err  { color: #e11d48; }
@@ -235,6 +239,89 @@ kbd {
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
+}
+
+/* ---------- নিজের শব্দতালিকা (v4.28) ---------- */
+.words-card { margin-top: 14px; padding: 14px 16px; border: 1px solid rgba(120,120,140,.25); border-radius: 14px; background: rgba(127,127,150,.05); }
+.words-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.words-head small { font-weight: 400; opacity: .75; }
+.words-help { margin: 8px 0 10px; }
+.words-row { display: flex; gap: 8px; }
+.words-row input { flex: 1; min-width: 0; padding: 9px 12px; border: 1px solid rgba(120,120,140,.35); border-radius: 10px; background: transparent; color: inherit; font: inherit; }
+.words-row input:focus { outline: 2px solid #ff0066; outline-offset: 1px; }
+.word-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.word-list:empty { display: none; }
+.word-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 10px; border-radius: 999px; background: rgba(255,0,102,.10); border: 1px solid rgba(255,0,102,.35); font-size: .9rem; }
+.word-x { border: 0; background: transparent; color: inherit; cursor: pointer; font-size: .8rem; line-height: 1; padding: 2px 4px; border-radius: 6px; opacity: .7; }
+.word-x:hover { opacity: 1; background: rgba(255,0,102,.18); }
+.words-empty { opacity: .6; font-size: .9rem; margin-top: 10px; }
+
+/* ---------- ডোনেট বাটন + মডাল (v4.29) ---------- */
+.top-actions { display: flex; align-items: center; gap: 10px; }
+.donate-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border: 0; border-radius: 999px; cursor: pointer;
+  background: linear-gradient(135deg, #e2136e, var(--accent1) 55%, var(--accent2));
+  color: #fff; font: 700 15px/1 system-ui, -apple-system, sans-serif; letter-spacing: .3px;
+  box-shadow: 0 2px 10px rgb(226 19 110 / .45);
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  animation: donate-glow 2.4s ease-in-out infinite;
+}
+.donate-btn:hover { transform: translateY(-1px); filter: brightness(1.06); box-shadow: 0 4px 16px rgb(226 19 110 / .55); }
+.donate-btn:active { transform: scale(.97); }
+.donate-btn svg { flex: none; }
+.dn-bn { font-size: 11px; font-weight: 600; opacity: .85; }
+@keyframes donate-glow {
+  0%, 100% { box-shadow: 0 2px 10px rgb(226 19 110 / .45), 0 0 0 0 rgb(226 19 110 / .35); }
+  50%      { box-shadow: 0 2px 10px rgb(226 19 110 / .45), 0 0 0 7px rgb(226 19 110 / 0); }
+}
+.donate-modal {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+  background: rgb(10 12 16 / .55); backdrop-filter: blur(4px);
+}
+.donate-modal[hidden] { display: none; }
+.donate-card {
+  position: relative; width: 100%; max-width: 430px; max-height: 88vh; overflow: auto;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 22px;
+}
+.donate-x {
+  position: absolute; top: 10px; right: 10px; width: 32px; height: 32px;
+  border: 1px solid var(--border); border-radius: 8px; background: var(--surface2);
+  color: var(--muted); font-size: 14px; cursor: pointer; line-height: 1;
+}
+.donate-x:hover { color: var(--text); }
+.donate-card h2 { margin: 2px 0 10px; font-size: 19px; }
+.donate-card p { margin: 0 0 12px; font-size: 14px; line-height: 1.75; color: var(--muted); }
+.donate-card p b { color: var(--text); }
+.donate-bkash {
+  border: 1px solid var(--border); border-radius: 12px; background: var(--surface2);
+  padding: 12px 14px; margin-bottom: 14px;
+}
+.bkash-tag {
+  display: inline-block; font-size: 11px; font-weight: 700; color: #e2136e;
+  background: rgb(226 19 110 / .1); border-radius: 999px; padding: 3px 10px; margin-bottom: 9px;
+}
+.bkash-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.bkash-num { font: 700 24px/1 ui-monospace, "Courier New", monospace; letter-spacing: 1px; color: var(--text); }
+.bkash-copy {
+  border: 0; border-radius: 10px; padding: 9px 16px; font-weight: 700; font-size: 14px;
+  cursor: pointer; color: #fff; background: linear-gradient(135deg, #e2136e, var(--accent1));
+}
+.bkash-copy:hover { filter: brightness(1.08); }
+.donate-steps { margin: 0 0 12px; padding-left: 20px; font-size: 13.5px; line-height: 1.95; color: var(--muted); }
+.donate-steps b { color: var(--text); }
+.donate-note { font-size: 12.5px; margin: 0; }
+@media (max-width: 560px) {
+  .donate-btn { padding: 8px 12px; font-size: 13px; gap: 5px; }
+  .dn-bn { display: none; }
+  .bkash-num { font-size: 20px; }
+  .donate-card { padding: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .donate-btn { animation: none; }
 }
 
 </style>
@@ -256,10 +343,17 @@ kbd {
     <svg viewBox="0 0 48 48" class="logo" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff0066"/><stop offset="1" stop-color="#ff6600"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="12" fill="url(#g)"/><text x="24" y="33" font-size="26" text-anchor="middle" fill="#fff" font-family="sans-serif">আ</text></svg>
     <div class="brand-text"><b>আব্দুল্লাহ</b><small>বাংলা কনভার্টার</small></div>
   </div>
-  <button id="themeToggle" class="icon-btn" title="থিম বদলান" aria-label="থিম বদলান">
-    <svg class="ic-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
-    <svg class="ic-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"/></svg>
-  </button>
+  <div class="top-actions">
+    <button id="themeToggle" class="icon-btn" title="থিম বদলান" aria-label="থিম বদলান">
+      <svg class="ic-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+      <svg class="ic-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"/></svg>
+    </button>
+    <!-- v4.29: ডোনেট বাটন — টপবারের সর্বডানে, ঐচ্ছিক সহযোগিতা; কোনো ফিচার কখনো পে-ওয়াল হবে না -->
+    <button id="donateBtn" class="donate-btn" title="স্বেচ্ছায় সহযোগিতা করুন — সব ফিচার চিরকাল ফ্রি" aria-label="ডোনেট করুন">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.9-10-9.2C.4 8.9 1.6 5.5 4.7 4.4c2-.7 4.2 0 5.5 1.6L12 8l1.8-2c1.3-1.6 3.5-2.3 5.5-1.6 3.1 1.1 4.3 4.5 2.7 7.4C19.5 16.1 12 21 12 21z"/></svg>
+      <span>Donate</span><span class="dn-bn">ডোনেট</span>
+    </button>
+  </div>
 </header>
 
 <main>
@@ -293,6 +387,7 @@ kbd {
       <span id="hintMsg">অটো মোড নিশ্চিত নয় — টেক্সটটি কি বিজয়/ANSI?</span>
       <button id="forceBtn" class="mini-btn">ফোর্স কনভার্ট</button>
     </span>
+    <button id="diagBtn" class="mini-btn" title="বিল্ড, দিক, স্ট্যাটাস ও ইনপুট-লেখা একসাথে কপি করে ডেভেলপারকে পাঠান">📋 অভিযোগ কপি</button>
   </div>
 
   <section class="panes">
@@ -332,19 +427,61 @@ kbd {
     </div>
     <div id="docxDrop" class="dropzone" tabindex="0" role="button" aria-label="docx ফাইল টেনে আনুন বা ক্লিক করে বাছুন">
       <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 9 5-5 5 5"/><path d="M12 4v12"/></svg>
-      <span><b>ফাইল এখানে টেনে আনুন</b> অথবা ক্লিক করে বাছুন</span>
+      <span><b>ফাইল এখানে টেনে আনুন</b> অথবা ক্লিক করে বাছুন — একসাথে অনেক ফাইলও চলবে (ব্যাচ)</span>
       <small>৫০+ পৃষ্ঠার ফাইলও চলবে — ছবি, টেবিল, গ্রাফ ও ফরম্যাটিং হুবহু অক্ষত থাকবে; শুধু লেখা কনভার্ট হবে। ফন্ট রেফারেন্সও নিজে থেকে ঠিক হবে (বিজয় ↔ ইউনিকোড ফন্ট)। ফাইল আপনার কম্পিউটার ছেড়ে যায় না।</small>
-      <input type="file" id="docxFile" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+      <input type="file" id="docxFile" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple hidden>
     </div>
     <p id="docxStatus" class="docx-status" hidden></p>
+    <div id="docxResults" class="docx-results" hidden></div>
+  </section>
+
+  <section class="words-card" aria-label="নিজের শব্দতালিকা">
+    <div class="words-head">
+      <span class="docx-title">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        নিজের শব্দতালিকা <small>— যে শব্দগুলো সবসময় ইংরেজি থাকবে</small>
+      </span>
+      <span id="wordCount" class="badge">০টি শব্দ</span>
+    </div>
+    <p class="note words-help">ব্র্যান্ড বা নাম যোগ করুন (যেমন <b>vivo</b>) — বিজয় লাইনেও শব্দটি আর বাংলা অক্ষরে ভাঙবে না। তালিকা এই ব্রাউজারেই সংরক্ষিত থাকে; টেক্সট ও Word — দুই কনভার্সনেই খাটে।</p>
+    <div class="words-row">
+      <input type="text" id="wordInput" maxlength="40" placeholder="ইংরেজি শব্দ লিখে Enter চাপুন" aria-label="নতুন শব্দ যোগ করুন" autocomplete="off" spellcheck="false">
+      <button id="wordAddBtn" class="mini-btn">➕ যোগ করুন</button>
+    </div>
+    <div id="wordList" class="word-list" aria-live="polite"></div>
   </section>
 
   <p class="note">টিপ: <kbd>Ctrl</kbd>+<kbd>Enter</kbd> = তাৎক্ষণিক কনভার্ট • <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> = অদলবদল • আউটপুট বক্সে সরাসরি লিখলে উল্টো দিক আপডেট হয়</p>
 </main>
 
-<footer class="foot">আব্দুল্লাহ ইঞ্জিন v2 + DOCX — মিশ্র-এনকোডিং নিরাপদ • ২২১/২২১ টেস্ট পাস • ভাঙা-ফাইল মেরামত • Word ফাইল সাপোর্ট • সম্পূর্ণ অফলাইন</footer>
+<footer class="foot">আব্দুল্লাহ ইঞ্জিন v2 + DOCX — মিশ্র-এনকোডিং নিরাপদ • ৪৫৪/৪৫৪ টেস্ট পাস • ভাঙা-ফাইল মেরামত • Word ফাইল সাপোর্ট • সম্পূর্ণ অফলাইন</footer>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- v4.29: ডোনেট মডাল — বিকাশ পার্সোনাল 01721100716; বাস্তব ও যাচাইযোগ্য একমাত্র মাধ্যম
+     (ব্যক্তিগত বিকাশ নম্বরের কোনো পাবলিক পেমেন্ট-লিংক হয় না, তাই কাল্পনিক লিংক নয় —
+     নম্বর + কপি + ধাপে ধাপে নির্দেশনা, সম্পূর্ণ অফলাইন-নিরাপদ) -->
+<div id="donateModal" class="donate-modal" hidden aria-hidden="true" role="dialog" aria-labelledby="donateTitle">
+  <div class="donate-card">
+    <button id="donateClose" class="donate-x" title="বন্ধ করুন" aria-label="বন্ধ করুন">✕</button>
+    <h2 id="donateTitle">❤️ স্বেচ্ছায় সহযোগিতা করুন</h2>
+    <p>এই টুল সবার জন্য <b>সম্পূর্ণ বিনামূল্যে</b> এবং চিরকাল তাই থাকবে। ডোনেশন সম্পূর্ণ ঐচ্ছিক — না দিলেও কোনো ফিচার বা সুবিধা কমবে না। যাঁরা কাজটিকে মূল্যবান মনে করেন, তাঁদের সহযোগিতাই এই প্রকল্পের উন্নয়ন, রক্ষণাবেক্ষণ ও আপডেট অব্যাহত রাখে।</p>
+    <div class="donate-bkash">
+      <span class="bkash-tag">বিকাশ (পার্সোনাল) · Send Money</span>
+      <div class="bkash-row">
+        <b id="donateNum" class="bkash-num">01721100716</b>
+        <button id="donateCopy" class="bkash-copy">নম্বর কপি</button>
+      </div>
+    </div>
+    <ol class="donate-steps">
+      <li>বিকাশ অ্যাপ খুলে <b>Send Money</b> নির্বাচন করুন</li>
+      <li>নম্বর দিন: <b>01721100716</b> (উপরের কপি বাটনও ব্যবহার করতে পারেন)</li>
+      <li>আপনার ইচ্ছা ও সামর্থ্য অনুযায়ী পরিমাণ লিখুন</li>
+      <li>আপনার পিন দিয়ে লেনদেন সম্পন্ন করুন</li>
+    </ol>
+    <p class="donate-note">অ্যাপ না থাকলে নিকটস্থ বিকাশ এজেন্ট/দোকান থেকেও Send Money করা যাবে। সহযোগিতার জন্য আন্তরিক ধন্যবাদ 🙏</p>
+  </div>
+</div>
 <script>
 /* ===== bundled: jszip 3.10.1 (MIT) ===== */
 /*!
@@ -399,6 +536,11 @@ const BIJOY_TO_UNICODE = {
   "ÿè": "ক্ষ্ণ",
   "•ÿ": "ঙ্ক্ষ",
   "ÿ": "ক্ষ",
+  /* v4.23: some Bijoy documents (CD কেস-ডায়েরী) draw ক্ষ from the pilcrow byte
+     too — old converters left it unmapped ("সা¶দের"). Decode-side alias only;
+     U→B keeps writing the canonical ÿ. Also makes ¶ strong Bijoy evidence
+     (BIJOY_STRONG derives from these keys), so ¶-carrying lines classify. */
+  "¶": "ক্ষ",
   "·": "ক্স",
   "L¡": "খ্ব",
   "¸": "গু",
@@ -1046,6 +1188,16 @@ function reArrangeUnicodeToBijoy(t) {
 
 /* ---------- core converters (single-encoding fragments) ---------- */
 function bijoyToUnicode(text) {
+  /* v4.18→v4.20 সংশোধন: ক্লিপবোর্ড-ফ্ল্যাটেনিং বিজয়ের কার্লি-লিগেচার কোট
+     ভাঙে — "š’" (ন্থ) ও "¯’" (স্থ) š'/¯' (ASCII apostrophe) হয়ে আসতে পারে।
+     শুধু ASCII রূপই মেরামত হয় — š/¯-এর পরের ASCII ' কখনো ইংরেজি নয়, তাই
+     আসল apostrophe ("don't") বাইট-অক্ষত থাকে।
+     v4.20: U+2018 ক্ষতি নয় — š‘ (ন্তু, যেমন কিন্তু) ও ¯‘ (স্তু, যেমন বস্তু)
+     ক্যানোনিকাল লিগেচার; পুরনো সর্বগ্রাসী \u2018→\u2019 মেরামত চুপচাপ কিন্তুকে
+     কিন্থ বানিয়ে দিত। এখন ক্যানোনিকাল বাইট বিশ্বাস পায়; disambigLigatures()
+     শুধু তখনই অন্য পাঠে বদলায় যখন VOCAB সেটির সপক্ষে প্রমাণ দেয়
+     (যেমন ফ্ল্যাটেন হওয়া কর্ম¯‘j → কর্মস্তুল → কর্মস্থল)। */
+  text = String(text).replace(/([\u0161\u00af])'/g, '$1\u2019');
   for (const [re, val] of A2U) text = text.replace(re, val);
   text = reArrangeBijoyToUnicode(text);
   text = text.replace(RE_AA_FIX, '\u0986');
@@ -1124,9 +1276,31 @@ function lineStats(line) {
  * English word can ever enter the proof set — English safety is
  * guaranteed by construction, recall grows with the vocabulary.
  * ================================================================== */
-const VOCAB_BN = ('বরাবর পুলিশ সুপার জনাব থানা জেলা তারিখ নং মামলা অভিযোগ নিবেদন প্রেরণ তথ্য হতে পর্যন্ত কোনো করা হলো হয় না এর সহ নাম গ্রাম উপজেলা বিষয় সূত্র ফরম ধারা আইন অনুযায়ী কেস ডায়েরী প্রাথমিক তদন্ত আসামী আসামি বাদী বিবাদী সাক্ষী আদালত স্বাক্ষরিত অফিসার চার্জ নথি স্মারক অবগতি অবগতির জন্য অত্র প্রতিবেদন শূন্য মোতাবেক ছক চট্টগ্রাম খ্রি সেপ্টেম্বর জুলাই মানব পাচার সংক্রান্ত হালনাগাদ প্রসঙ্গে বিনীত উপর্যুক্ত প্রেক্ষিতে গত রুজু হওয়ায় চাহিত তথ্যাদির আলোকে প্রেরিত রাউজান ভূজপুর ফৌজদারী বিধান কোষের ইতি এবং বা কিন্তু কারণ তাই যদি যখন তখন যে এই সেই কোন সব কিছু অনেক বেশি কম প্রায় মাত্র শুধু আরও অথবা প্রতি প্রতিটি প্রত্যেক যথা ইত্যাদি ভাবে মতো সাথে সঙ্গে ছাড়া মধ্যে উপর নিচে পাশে সামনে পেছনে ভিতরে বাইরে আগে পরে এখন কখন সবসময় কখনো ইতোমধ্যে সম্পূর্ণ অংশ যত যেন যিনি যাঁর যার যাদের কেউ কেহ নিজ নিজের স্বয়ং একটি একজন দুই তিন চার পাঁচ ছয় সাত আট নয় দশ শত হাজার লক্ষ কোটি প্রথম দ্বিতীয় তৃতীয় চতুর্থ পঞ্চম আমি তুমি আপনি সে তারা আমরা তোমরা ওরা এরা আমার তোমার আপনার তার আমাদের হবে হয়েছিল হয়নি করে করেন করছি করুন করিতে করিয়া করবে করবেন করেছে করেছেন করল করলেন দেওয়া দেয় দিয়ে দিল দিলেন দিতে দেবেন নেওয়া নেয় নিয়ে নিল নিলেন নিতে নেবেন আছে ছিল রয়েছে থাকে থাকবে থাকেন থাকবেন যায় গেল গেছে গিয়েছে গিয়েছেন গিয়েছিল চায় চেয়েছিলেন চাইলে পারে পারেন পারবে জানায় জানাতে জানা ঠিকানা পিতা স্বামী মাতা বয়স জন্ম স্থান মোবাইল ফোন নম্বর ইউনিয়ন ওয়ার্ড মহল্লা ডাক প্রশাসন বিচারক প্রমাণ প্রমাণাদি বিজ্ঞপ্তি আদেশ নির্দেশ আবেদন দরখাস্ত চিঠি পত্র ফাইল দপ্তর কার্যালয় মন্ত্রণালয় বিভাগ অধিদপ্তর পরিদপ্তর কমিশন কমিটি সভা সভাপতি সম্পাদক সদস্য সচিব মহাপরিচালক পরিচালক চেয়ারম্যান কর্মকর্তা কর্মচারী কর্মচারি জনগণ মানুষ লোক শিক্ষক ছাত্র ছাত্রী বিদ্যালয় কলেজ বিশ্ববিদ্যালয় শিক্ষা স্বাস্থ্য চিকিৎসা হাসপাতাল ঔষধ ওষুধ ব্যবসা বাণিজ্য কৃষি শিল্প কারখানা রপ্তানি আমদানি আয় ব্যয় বাজেট হিসাব উপাত্ত পরিসংখ্যান উন্নয়ন প্রকল্প পরিকল্পনা বাস্তবায়ন মূল্যায়ন পরিদর্শন তদারকি সমন্বয় সহযোগিতা অনুমোদন অনুমতি লাইসেন্স নিবন্ধন মহোদয় মহোদয়া সমীপেষু নিবেদনকারী সাল খ্রিস্টাব্দ জ্ঞাতার্থে সড়ক মহাসড়ক রাস্তা বাড়ি হোল্ডিং প্লট ইমেইল ঠিক ভুল শুদ্ধ সঠিক যথাযথ যথারীতি নিয়ম নীতি আইনগত বৈধ অবৈধ সক্রিয় নিষ্ক্রিয় জরুরি গোপনীয় সাধারণ বিশেষ প্রধান সহকারী অতিরিক্ত যুগ্ম পূর্ব পশ্চিম উত্তর দক্ষিণ ঢাকা খুলনা রাজশাহী সিলেট বরিশাল রংপুর ময়মনসিংহ ফরিদপুর বাংলাদেশ সরকার রাষ্ট্র দেশ মন্ত্রী সংসদ নির্বাচন ভোট কেন্দ্র ফলাফল দল নেতা কর্মী জনসাধারণ প্রয়োজনীয় ব্যবস্থা গ্রহণ অনুরোধ আদিষ্ট ক্রমে পত্র প্রাপ্তির স্বীকার নথিভুক্ত মন্তব্য সুপারিশ সিদ্ধান্ত কার্যক্রম দায়িত্ব ক্ষমতা অধিকার সহায়তা প্রদান গ্রহণ প্রাপ্তি জমা দাখিল নিষ্পত্তি সমাধান পুনঃতদন্ত বিভাগীয় দুর্নীতি ঘুষ অনিয়ম অপরাধ অপরাধী শাস্তি জরিমানা ক্ষতিপূরণ বাংলা বাংলায় লিখছি লিখি লিখুন লেখা পড়ি পড়ুন জানি জানাই জানানো চাই দেখি দেখুন করি বলি বলে থাকি হয়ে মতে ফলে অর্থাৎ উদাহরণ যেমন তেমন যদিও তবু তথা সহকারে বিষয়ে ভিত্তিতে প্রেক্ষাপটে পরিস্থিতি সমস্যা কর্তৃপক্ষ প্রতিষ্ঠান সংস্থা আবেদনকারী প্রাপক প্রেরক সংযুক্তি সংযুক্ত বরাবরে মহাজন ইংরেজি ভাষা কথা টি টা এক').split(/\s+/);
+/* v4.20: VOCAB entries typed with decomposed ড়/ঢ়/য় (ড+় etc.) never match
+   the composed bytes the maps emit — decodesToVocab/flipLigature/repair-guards
+   all compare raw strings, so normalise the vocabulary once at init.
+   (NFC cannot do this — U+09DC/DD/DF are composition exclusions.) */
+const composeLig = g => g.split('ড়').join('ড়')
+                         .split('ঢ়').join('ঢ়')
+                         .split('য়').join('য়');
+const VOCAB_BN = ('বরাবর পুলিশ সুপার জনাব থানা জেলা তারিখ নং মামলা অভিযোগ নিবেদন প্রেরণ তথ্য হতে পর্যন্ত কোনো করা হলো হয় না এর সহ নাম গ্রাম উপজেলা বিষয় সূত্র ফরম ধারা আইন অনুযায়ী কেস ডায়েরী প্রাথমিক তদন্ত আসামী আসামি বাদী বিবাদী সাক্ষী আদালত স্বাক্ষরিত অফিসার চার্জ নথি স্মারক অবগতি অবগতির জন্য অত্র প্রতিবেদন শূন্য মোতাবেক ছক চট্টগ্রাম খ্রি সেপ্টেম্বর জুলাই মানব পাচার সংক্রান্ত হালনাগাদ প্রসঙ্গে বিনীত উপর্যুক্ত প্রেক্ষিতে গত রুজু হওয়ায় চাহিত তথ্যাদির আলোকে প্রেরিত রাউজান ভূজপুর ফৌজদারী বিধান কোষের ইতি এবং বা কিন্তু কারণ তাই যদি যখন তখন যে এই সেই কোন সব কিছু অনেক বেশি কম প্রায় মাত্র শুধু আরও অথবা প্রতি প্রতিটি প্রত্যেক যথা ইত্যাদি ভাবে মতো সাথে সঙ্গে ছাড়া মধ্যে উপর নিচে পাশে সামনে পেছনে ভিতরে বাইরে আগে পরে এখন কখন সবসময় কখনো ইতোমধ্যে সম্পূর্ণ অংশ যত যেন যিনি যাঁর যার যাদের কেউ কেহ নিজ নিজের স্বয়ং একটি একজন দুই তিন চার পাঁচ ছয় সাত আট নয় দশ শত হাজার লক্ষ কোটি প্রথম দ্বিতীয় তৃতীয় চতুর্থ পঞ্চম আমি তুমি আপনি সে তারা আমরা তোমরা ওরা এরা আমার তোমার আপনার তার আমাদের হবে হয়েছিল হয়নি করে করেন করছি করুন করিতে করিয়া করবে করবেন করেছে করেছেন করল করলেন দেওয়া দেয় দিয়ে দিল দিলেন দিতে দেবেন নেওয়া নেয় নিয়ে নিল নিলেন নিতে নেবেন আছে ছিল রয়েছে থাকে থাকবে থাকেন থাকবেন যায় গেল গেছে গিয়েছে গিয়েছেন গিয়েছিল চায় চেয়েছিলেন চাইলে পারে পারেন পারবে জানায় জানাতে জানা ঠিকানা পিতা স্বামী মাতা বয়স জন্ম স্থান মোবাইল ফোন নম্বর ইউনিয়ন ওয়ার্ড মহল্লা ডাক প্রশাসন বিচারক প্রমাণ প্রমাণাদি বিজ্ঞপ্তি আদেশ নির্দেশ আবেদন দরখাস্ত চিঠি পত্র ফাইল দপ্তর কার্যালয় মন্ত্রণালয় বিভাগ অধিদপ্তর পরিদপ্তর কমিশন কমিটি সভা সভাপতি সম্পাদক সদস্য সচিব মহাপরিচালক পরিচালক চেয়ারম্যান কর্মকর্তা কর্মচারী কর্মচারি কর্মস্থল বস্তু বিপি আসিয়া বি সং ঐ জনগণ মানুষ লোক শিক্ষক ছাত্র ছাত্রী বিদ্যালয় কলেজ বিশ্ববিদ্যালয় শিক্ষা স্বাস্থ্য চিকিৎসা হাসপাতাল ঔষধ ওষুধ ব্যবসা বাণিজ্য কৃষি শিল্প কারখানা রপ্তানি আমদানি আয় ব্যয় বাজেট হিসাব উপাত্ত পরিসংখ্যান উন্নয়ন প্রকল্প পরিকল্পনা বাস্তবায়ন মূল্যায়ন পরিদর্শন তদারকি সমন্বয় সহযোগিতা অনুমোদন অনুমতি লাইসেন্স নিবন্ধন মহোদয় মহোদয়া সমীপেষু নিবেদনকারী সাল খ্রিস্টাব্দ জ্ঞাতার্থে সড়ক মহাসড়ক রাস্তা বাড়ি হোল্ডিং প্লট ইমেইল ঠিক ভুল শুদ্ধ সঠিক যথাযথ যথারীতি নিয়ম নীতি আইনগত বৈধ অবৈধ সক্রিয় নিষ্ক্রিয় জরুরি গোপনীয় সাধারণ বিশেষ প্রধান সহকারী অতিরিক্ত যুগ্ম পূর্ব পশ্চিম উত্তর দক্ষিণ ঢাকা খুলনা রাজশাহী সিলেট বরিশাল রংপুর ময়মনসিংহ ফরিদপুর বাংলাদেশ সরকার রাষ্ট্র দেশ মন্ত্রী সংসদ নির্বাচন ভোট কেন্দ্র ফলাফল দল নেতা কর্মী জনসাধারণ প্রয়োজনীয় ব্যবস্থা গ্রহণ অনুরোধ আদিষ্ট ক্রমে পত্র প্রাপ্তির স্বীকার নথিভুক্ত মন্তব্য সুপারিশ সিদ্ধান্ত কার্যক্রম দায়িত্ব ক্ষমতা অধিকার সহায়তা প্রদান গ্রহণ প্রাপ্তি জমা দাখিল নিষ্পত্তি সমাধান পুনঃতদন্ত বিভাগীয় দুর্নীতি ঘুষ অনিয়ম অপরাধ অপরাধী শাস্তি জরিমানা ক্ষতিপূরণ বাংলা বাংলায় লিখছি লিখি লিখুন লেখা পড়ি পড়ুন জানি জানাই জানানো চাই দেখি দেখুন করি বলি বলে থাকি হয়ে মতে ফলে অর্থাৎ উদাহরণ যেমন তেমন যদিও তবু তথা সহকারে বিষয়ে ভিত্তিতে প্রেক্ষাপটে পরিস্থিতি সমস্যা কর্তৃপক্ষ প্রতিষ্ঠান সংস্থা আবেদনকারী প্রাপক প্রেরক সংযুক্তি সংযুক্ত বরাবরে মহাজন ইংরেজি ভাষা কথা টি টা এক একই অভিবাসী ও সু ঘর এ গণ চা পঁচাত্তর অবস্থিত ই').split(/\s+/).map(composeLig);   /* v4.29: ই — B/Gm → ই/এস অভিযোগ; G→এ H→ঐ I→ও-এর মতোই B→ই ভোকাব-প্রুফ পেল (একা-লাইন/হাইফেন-লেবেল/'=' লেবেলে আগের মতোই ইংরেজি) */
 
-const ENGLISH_BLOCK = new Set(('a an and are as at be been but by can could did do does for from had has have he her here his how i if in into is it its just me my no nor not of on one or our out she should so than that the their them then there these they this those to too two up us very was we were what when where which who why will with you your ok okay yes never always sometimes often now today tomorrow yesterday name report see subject ref reference date letter office file data time year month day week new old good bad first second third page line word text number code id total size amount money tax bill payment account bank cash credit order work job task duty service staff employee employer manager director chairman secretary member president officer clerk worker labor company firm group team committee board ministry department division section unit branch head school college university student teacher class course exam result mark grade degree certificate training education health hospital doctor nurse patient medicine police court judge lawyer case law rule act order notice circular memo application complaint inquiry investigation statement record document paper form copy original true false correct wrong error mistake problem solution answer question ask tell say speak write read give take make put set get let allow permit request inform submit send receive deliver return reply contact call meet visit come go arrive leave stay wait stop start begin end finish complete continue remain change improve add remove delete insert update edit modify replace transfer move bring buy sell sale purchase price cost profit loss budget plan project www http https com net org gov bd gmail yahoo facebook html css pdf doc docx xls xlsx ppt pptx jpg jpeg png gif exe zip rar app api usb pc laptop mobile phone fax email web site online offline mr mrs ms sir madam dear regards thanks thank sincerely faithfully yours truly cc bcc encl note notes important urgent confidential draft final approved pending submitted received sent forwarded regarding about against between during before after above below below near far east west north south city town village country road street house building room floor door window table chair book pen paper ink color black white red blue green size small large big high low long short weight height width length speed rate ratio percent per plus minus equal value key lock open close closed closed sign signature seal stamp print printer scanner screen keyboard mouse button switch power light water air gas oil fuel fire smoke dust rain sun moon star sky sea river lake hill mountain tree plant flower leaf root seed fruit food rice wheat fish meat milk egg tea coffee sugar salt oil meal lunch dinner breakfast morning noon evening night hour minute second').split(/\s+/));
+const ENGLISH_BLOCK = new Set(('a an and are as at be been but by can could did do does for from had has have he her here his how i if in into is it its just me my no nor not of on one or our out she should so than that the their them then there these they this those to too two up us very was we were what when where which who why will with you your ok okay yes never always sometimes often now today tomorrow yesterday name report see subject ref reference date letter office file data time year month day week new old good bad first second third page line word text number code id total size amount money tax bill payment account bank cash credit order work job task duty service staff employee employer manager director chairman secretary member president officer clerk worker labor company firm group team committee board ministry department division section unit branch head school college university student teacher class course exam result mark grade degree certificate training education health hospital doctor nurse patient medicine police court judge lawyer case law rule act arms order notice circular memo application complaint inquiry investigation statement record document paper form copy original true false correct wrong error mistake problem solution answer question ask tell say speak write read give take make put set get let allow permit request inform submit send receive deliver return reply contact call meet visit come go arrive leave stay wait stop start begin end finish complete continue remain change improve add remove delete insert update edit modify replace transfer move bring buy sell sale purchase price cost profit loss budget plan project www http https com net org gov bd gmail yahoo facebook html css pdf doc docx xls xlsx ppt pptx jpg jpeg png gif exe zip rar app api usb pc laptop mobile phone fax email web site online offline english bangla address father mother special patron gurdian guardian taste silver premuim premium quality blend redmi android mond slims apple strawberry symphony oris imei smoking mojito discover eagle samsung viber nokia vivo oppo itel tecno infinix walton realme xiaomi iphone dell poco motorola oneplus huawei honor lenovo acer asus pro prime core hp harmful quit reduces made brand mr mrs ms sir madam dear regards thanks thank sincerely faithfully yours truly cc bcc encl note notes important urgent confidential draft final approved pending submitted received sent forwarded regarding about against between during before after above below below near far east west north south city town village country road street house building room floor door window table chair book pen paper ink color black white red blue green size small large big high low long short weight height width length speed rate ratio percent per plus minus equal value key lock open close closed closed sign signature seal stamp print printer scanner screen keyboard mouse button switch power light water air gas oil fuel fire smoke dust rain sun moon star sky sea river lake hill mountain tree plant flower leaf root seed fruit food rice wheat fish meat milk egg tea coffee sugar salt oil meal lunch dinner breakfast morning noon evening night hour minute second').split(/\s+/));
+
+/* v4.28: নিজের শব্দতালিকা — ব্যবহারকারীর নিজের-যোগ-করা শব্দ, যেগুলো সবসময়
+   ইংরেজি থাকবে (vivo-র মতো ব্র্যান্ড/নাম যা ENGLISH_BLOCK-এ নেই)। অ্যাপের
+   "📖 নিজের শব্দতালিকা" প্যানেল থেকে যোগ/মুছে localStorage-এ সংরক্ষিত হয়।
+   সীমা: শব্দটি বিজয়-প্রুফ এনকোডিং হলে (যেমন ms=সং) প্রুফ-অগ্রাধিকারে তা
+   ডিকোড হতেই থাকবে — নিরাপত্তার জন্য এটি ইচ্ছাকৃত। */
+let CUSTOM_BLOCK = new Set();
+function setCustomBlock(list) {
+  CUSTOM_BLOCK = new Set((Array.isArray(list) ? list : [])
+    .map(w => String(w).trim().toLowerCase())
+    .filter(w => w && w.length <= 40 && /^[a-z0-9][a-z0-9 .+_-]*$/.test(w)));
+  return [...CUSTOM_BLOCK];
+}
+function getCustomBlock() { return [...CUSTOM_BLOCK]; }
+const inBlock = w => ENGLISH_BLOCK.has(w) || CUSTOM_BLOCK.has(w);
 
 /* Bijoy encodings of the vocabulary — the PROOF set. An encoding is
    admitted only if it is ≥2 chars and can never look like English. */
@@ -1143,9 +1317,17 @@ for (const w of VOCAB_BN) {
    When at least one word was rescued, an ASCII pipe directly adjacent
    to Bengali text is a Bijoy danda and becomes '।' as well. */
 function rescueProvenWords(line) {
+  /* v4.26: লেবেল অবস্থানের একক বড় হরফ কখনোই বাংলায় উদ্ধার হয় না —
+     "G = দোকান।", "G- রাস্তা।" বা শুধু "G" লাইন (CD অভিযোগ: মিক্সড
+     লাইনে pass-2 লেবেল-ক্যাপ ডিকোড করে ফেলত) */
+  const loneCapLabel = (t, off, s) => /^[A-Z]$/.test(t) && (
+    /^[\s\u200b-\u200d]*=(?!=)/.test(s.slice(off + 1)) ||
+    /^-(?=[\s\u200b-\u200d]|$)/.test(s.slice(off + 1)) ||
+    s.replace(/[\s\u200b-\u200d\ufeff]/g, '') === t);
   let rescued = 0;
+  let pass1 = 0;   /* v4.25: PROOF-hits prove the line itself is Bijoy */
   let out = line.replace(/[A-Za-z]{2,}/g, t => {
-    const hit = s => { rescued++; return bijoyToUnicode(s); };
+    const hit = s => { rescued++; pass1++; return bijoyToUnicode(s); };
     if (BIJOY_PROOF.has(t)) return hit(t);
     if (/^[a-z]+$/.test(t)) {
       const u = t[0].toUpperCase() + t.slice(1);
@@ -1158,15 +1340,35 @@ function rescueProvenWords(line) {
   });
   /* pass 2: Bijoy-signature strong tokens inside an already-Bengali line */
   if (/[\u0980-\u09ff]/.test(out)) {
-    out = out.replace(/[A-Za-z]{2,}/g, t => {
-      if (tokenClass(t) === 'strong') { rescued++; return bijoyToUnicode(t); }
+    out = out.replace(/[A-Za-z]+/g, (t, off, s) => {   /* v4.22: {2,}→+ — একক হারফও (H→ঐ) tokenClass-প্রুফে ধরা পড়ে */
+      /* v4.27: মিক্সড লাইনে ক্রমিক-বর্ণ লেবেল (K- ঘটনাস্থলঃ…) — হাইফেন+স্পেস
+         দেখলেই বাংলা ক্রমিকে ডিকোড (পুরনো কনভার্টারের ফেলে-যাওয়া K S) */
+      if (SERIAL_CAPS.has(t) && /^-(?=[\s\u200b-\u200d]|$)/.test(s.slice(off + t.length))) {
+        rescued++; return bijoyToUnicode(t);
+      }
+      if (loneCapLabel(t, off, s)) return t;            /* v4.26 লেবেল প্রহরা */
+      /* v4.25: একক বড় হরফের পরে সংখ্যা = মডেল আইডি (I5, H9) — ইংরেজিই থাকে */
+      if (/^[A-Z]$/.test(t) && /[0-9]/.test(s.charAt(off + t.length))) return t;
+      /* v4.25: ALL-CAPS ব্লক-শব্দ যার ডিকোড ভোকাবুলারি-শব্দ (MY→গণ) — ডিকোড
+         হয় শুধু যখন এই লাইন নিজেই pass-1 PROOF-উদ্ধারে বিজয়-প্রমাণিত;
+         আগে-থেকে-বাংলা লাইনে ইংরেজিই থাকে (FIR গোল্ডেন: "শহিদুল MY জড়িত") */
+      const capsBlockVocab = t.length >= 2 && t === t.toUpperCase() &&
+        inBlock(t.toLowerCase()) && decodesToVocab(t);
+      if (capsBlockVocab ? pass1 > 0 : tokenClass(t) === 'strong') { rescued++; return bijoyToUnicode(t); }
       return t;
     });
     /* pass 3: once the line is proven, weak words and lone capitals follow */
     if (rescued > 0) {
-      out = out.replace(/[A-Za-z]+/g, t => {
+      out = out.replace(/[A-Za-z]+/g, (t, off, s) => {
+        if (loneCapLabel(t, off, s)) return t;            /* v4.26 লেবেল প্রহরা */
+        /* v4.25: মডেল আইডি প্রহরা (pass2-এর মতোই) — Y16-এর Y অক্ষর আর ণ হয় না */
+        if (/^[A-Z]$/.test(t) && /[0-9]/.test(s.charAt(off + t.length))) return t;
         const c = tokenClass(t);
-        if (c === 'weak' || (c === 'single' && /^[A-Z]$/.test(t) && !ENGLISH_BLOCK.has(t.toLowerCase()))) {
+        /* v4.26: প্রমাণিত মিক্সড লাইনেও ভোকাবুলারি-বহির্ভূত একক বড় হরফ
+           আর ডিকোড হয় না (M→গ ছিল item-1 অভিযোগের আকার) — ইংরেজি-নিরাপত্তা
+           প্রথম; ভোকাবুলারি ক্যাপ (H→ঐ) pass-2-এ strong হিসেবেই ধরা পড়ে */
+        if (c === 'weak' || (c === 'single' && /^[A-Z]$/.test(t) && decodesToVocab(t) &&
+            !inBlock(t.toLowerCase()))) {
           rescued++; return bijoyToUnicode(t);
         }
         return t;
@@ -1201,8 +1403,11 @@ const bn2asc = s => s.replace(/[\u09e6-\u09ef]/g, d => String(BN_DIG.indexOf(d))
 /* neighbour scan skips punctuation, a lone multiplier X/x/× and ASCII
    digit groups (they chain through to the next real word); on a bn/en
    conflict the NEARER neighbour wins, ties fall back to line script */
+/* v4.19: digit groups of BOTH scripts chain through to the next real
+   word — otherwise "Imei-১=৮৬৪…" repairs into mixed-script digits
+   (the Bengali ১ group used to act as a 'bn' context wall) */
 const isSkipTok = t => t === 'X' || t === 'x'
-  || /^[0-9][0-9,.]*$/.test(t)
+  || /^[0-9\u09e6-\u09ef][0-9\u09e6-\u09ef,.]*$/.test(t)
   || (t.length === 1 && !/[A-Za-z0-9\u09e6-\u09ef]/.test(t));
 const scriptOf = t => /[\u0980-\u09ff]/.test(t) ? 'bn' : (/[A-Za-z]/.test(t) ? 'en' : null);
 function digitContext(tokens, i) {
@@ -1227,8 +1432,16 @@ function scriptAwareDigits(line) {
     return t;
   }).join('');
   /* chandrabindu typed after a consonant (পাচঁশত) is a storage slip —
-     standard Bengali puts it before (পাঁচশত); fix on the way out */
-  return out.replace(/([\u0995-\u09b9\u09dc-\u09df])\u0981/g, '\u0981$1');
+     standard Bengali puts it before (পাঁচশত); fix on the way out.
+     v4.25: NOT when the surrounding run holds a dictionary word with the
+     ঁ where it stands — পঁচাত্তর is canonical, "চঁ" garbles still flip */
+  return out.replace(/([\u0995-\u09b9\u09dc-\u09df])\u0981/g, (m, c, off, s) => {
+    let a = off, b = off + m.length;
+    while (a > 0 && /[\u0980-\u09ff]/.test(s[a - 1])) a--;
+    while (b < s.length && /[\u0980-\u09ff]/.test(s[b])) b++;
+    const run = s.slice(a, b);
+    return VOCAB_BN.some(w => w.includes(c + '\u0981') && run.includes(w)) ? m : '\u0981' + c;
+  });
 }
 
 /* SHIELD (v4.12): two things hide from the decoder (PUA markers, absent
@@ -1240,12 +1453,72 @@ function shieldEnglish(line) {
   const store = [];
   const put = (w, as) => { store.push(as === undefined ? w : as); return '\uE000' + String.fromCharCode(0xE002 + store.length - 1) + '\uE001'; };
   const out = line
+    /* v4.18: email addresses and URLs are NEVER Bijoy text — shield them
+       whole, so lowercase domains can't be "decoded" into Bengali garbage
+       (mdnazrulislambp15@gmail.com → সফহধুৎঁষরংষধসনঢ়… was a real case) */
+    .replace(/[A-Za-z0-9._%+\-]+@[A-Za-z0-9\-]+(?:\.[A-Za-z0-9\-]+)+/g, m => put(m))
+    .replace(/(?:https?:\/\/|www\.)[A-Za-z0-9\-._~:%+/=?#&@]+/gi, m => put(m))
     /* a lone X/x/×/Î between digits is arithmetic — in office docs the
        multiplication sign is often the Bijoy byte Î; decode it as × */
     .replace(/([0-9\u09e6-\u09ef]\s*)([Xx×ÎІΙ])(?=\s*[0-9\u09e6-\u09ef])/g,
       (m, p1, p2) => p1 + put(p2, /[\u00ce\u0406\u0399]/.test(p2) ? '\u00d7' : p2))
-    .replace(/(^|[\s(.,;:!?/\-–—])([A-Z]{2,})(?=$|[\s(.,;:!?/\-–—])/g,
-      (m, p1, p2) => p1 + (BIJOY_PROOF.has(p2) || decodesToVocab(p2) ? p2 : put(p2)));
+    /* v4.24: an uppercase letter glued right after a digit is a citation or
+       model id ("19A.", "4G", "6S"), never Bijoy অ/জ/ড় — shield the letter;
+       the digit run then flips back to ASCII via the English-neighbour rule
+       (complaint #6: "Act-1878 … 19A." must survive a Bijoy-classified line) */
+    /* v4.25 (CD-A রাউন্ড): ফোন-মডেল আইডি — সংখ্যার সাথে লাগা বড় হরফ
+       ("Y16", "Y02A", "I5", "A03") সবসময় ইংরেজি মডেল নম্বর, কখনোই
+       বিজয় ণ/ও/অ + সংখ্যা নয় */
+    .replace(/(^|[\s(.,;:!?</>\u200b-\u200d\-–—])([A-Z][0-9]+[A-Z]?)(?=$|[\s(.,;:!?</>\u200b-\u200d\-–—])/g,
+      (m, p1, p2) => p1 + put(p2))
+    .replace(/([0-9\u09e6-\u09ef])([A-Z])(?![A-Za-z])/g, (m, d, L) => d + put(L))
+    /* v4.25: '='-এর আগে একা বড় হরফ = লেবেল/কিংবদন্তি ("H = দোকান", "I = গলি")
+       — ভোকাবুলারি-প্রমাণিত হলেও (ঐ/ও) ইংরেজিতেই থাকে */
+    .replace(/(^|[\s(.,;:!?/\u200b-\u200d\-–—])([A-Z])([\s\u200b-\u200d]*)=(?!=)/g, (m, p1, p2, p3) => p1 + put(p2) + p3 + '=')
+    /* v4.25: সীমানা-ঘেরা একা বড় হরফ ডিকোড হয় শুধু ভোকাবুলারি-প্রমাণে
+       (G→এ, H→ঐ, I→ও); নইলে ইংরেজি অক্ষর-উল্লেখ ("অক্ষরে M লেখা", "E- ঘর")
+       — অস্পৃশ্য। অক্ষর/চিহ্নের সাথে জোড়া লাগানো হরফ (K*v — বিশ্বস্ত ক*া
+       নজির) সীমানা-শ্রেণির বাইরে থাকায় আগের মতোই ডিকোড হয় */
+    .replace(/(^|[\s(.,;:!?</>\u200b-\u200d\-–—])([A-Z])(?=$|[\s(.,;:!?</>\u200b-\u200d–—]|-(?=$|[\s(.,;:!?</>\u200b-\u200d–—]))/g,
+      (m, p1, p2, off, s) => {
+        /* v4.26 (CD অভিযোগ রাউন্ড): সিদ্ধান্তের ক্রম বদলেছে —
+           ১) যে লাইনে এই একক বড় হরফ ছাড়া আর কিছুই নেই ("G", "H", "I")
+              = ঠিকানা-তালিকার লেবেল নোড → ইংরেজিতেই থাকে (ব্যবহারকারীর স্পষ্ট
+              অভিযোগ: "শুধু G / H / I লেখা লাইন এ ঐ ও হয়ে যায়");
+           ২) লেবেল অবস্থান: হরফ + '-' + স্পেস ("G- রাস্তা") → ভোকাবুলারি-প্রমাণ
+              (এ/ঐ/ও) থাকলেও ইংরেজিতেই থাকে — v4.22-এর লাইনের-ভেতরের H→ঐ
+              ডিকোড অক্ষত ("মামলা H নম্বর");
+           ৩) তারপর আগের নিয়ম: ভোকাবুলারি-প্রুফ → ডিকোড, নইলে শিল্ড।
+           সীমানা-শ্রেণিতে এখন অদৃশ্য জয়েনার \u200b-\u200d ও গণ্য — "অক্ষরে
+           M<ZWSP> লেখা" আকারে M→গ হয়ে যেত কারণ \s শূন্য-প্রস্থ চিনে না। */
+        const tOff = off + p1.length;
+        const rest = s.slice(tOff + p2.length);
+        const ls = s.lastIndexOf('\n', tOff - 1) + 1;
+        const le = s.indexOf('\n', tOff + p2.length);
+        const cur = s.slice(ls, le === -1 ? s.length : le)
+          .replace(/[\s\u200b-\u200d\ufeff]/g, '');
+        if (cur === p2) return p1 + put(p2);
+        if (/^-(?=[\s\u200b-\u200d]|$)/.test(rest))
+          /* v4.27: ক্রমিক-বর্ণ লেবেল (K- … T-) ডিকোড হয় — ক-, খ-, …, ঞ-;
+             অন্য সব বড় হরফের হাইফেন-লেবেল ইংরেজিতেই শিল্ড থাকে */
+          return SERIAL_CAPS.has(p2) ? p1 + bijoyToUnicode(p2) : p1 + put(p2);
+        return decodesToVocab(p2) ? m : p1 + put(p2);
+      })
+    /* ALL-CAPS words shield (Bijoy never types whole words in caps), and
+       v4.18: so do common English dictionary words (ENGLISH_BLOCK) in ANY
+       case — the form label "English" used to decode as "ঊহমষরংয" inside
+       Bijoy-classified lines. Proven Bijoy words (PROOF/vocab) still win,
+       and every non-block token (real Bijoy names like bRiæj, AvQgv) is
+       decoded exactly as before. */
+    /* v4.25: '<' '>' are boundaries too — markup-as-text (ভাঙা-ফাইল মেরামত,
+       junk chains) must shield symmetrically: '</w:document>'-এর document
+       শিল্ড না হলে উল্টো-ম্যাপে ট্যাগের ভারসাম্য ভাঙত (doucment!) */
+    .replace(/(^|[\s(.,;:!?</>\u200b-\u200d\-–—])([A-Za-z]{2,})(?=$|[\s(.,;:!?</>\u200b-\u200d\-–—])/g,
+      (m, p1, p2) => {
+        if (BIJOY_PROOF.has(p2) || decodesToVocab(p2)) return m;
+        if (p2 === p2.toUpperCase() || inBlock(p2.toLowerCase())) return p1 + put(p2);
+        return m;
+      });
   return { out, store };
 }
 const unshield = (s, store) => s.replace(/\uE000([\uE002-\uE0FF])\uE001/g, (m, c) => store[c.charCodeAt(0) - 0xE002]);
@@ -1273,8 +1546,8 @@ function decodeShielded(chunk) {
 const VOWEL_CHARS = /[aeiouAEIOU]/;
 /* a line whose words are mostly common English (the/and/to/…) is English
    prose — never treat it as Bijoy, never let sticky memory eat it */
-const isEnglishProse = l => (l.match(/[A-Za-z]+/g) || [])
-  .filter(w => ENGLISH_BLOCK.has(w.toLowerCase())).length >= 2;
+const isEnglishProse = l => (l.match(/[A-Za-z]{2,}/g) || [])   /* v4.28: {2,} — একক হরফ ('a', 'Y') গদ্য-প্রুফ নয়: সেগুলো বিজয় হরফ বা মডেল-আইডির টুকরো (Y02A → 'Y'+'A' ভাগ হয়ে ভুল প্রুফ গড়ত) */
+  .filter(w => inBlock(w.toLowerCase())).length >= 2;
 const VOCAB_SET = new Set(VOCAB_BN);
 const BN_SUFFIX = ['র', 'ের', 'ে', 'তে', 'য়', 'টি', 'টা', 'গণ', 'দের', 'রা', 'ও'];
 /* output-side proof: the decode is a vocabulary word, with or without a
@@ -1284,28 +1557,170 @@ function decodesToVocab(L) {
   if (VOCAB_SET.has(d)) return true;
   return BN_SUFFIX.some(s => d.endsWith(s) && VOCAB_SET.has(d.slice(0, -s.length)));
 }
+/* v4.27 (Case CD অভিযোগ): K S পর্যন্ত বড় হরফগুলি বাংলা ক্রমিক-বর্ণমালার
+   বিজয় এনকোডিং — ক খ গ ঘ ঙ চ ছ জ ঝ ঞ (ক-বর্গ + চ-বর্গের পুরো দুই সারি)।
+   আইনি নথির সূচিপত্র/আলামত-তালিকায় "K- ঘটনাস্থল", "P- পুকুর" ধরনের
+   হাইফেন+স্পেস লেবেল = বাংলা ক্রমিক → ডিকোড হয় (ক-, চ-)। বাকি বড় হরফের
+   হাইফেন-লেবেল (G- বারান্দা, E- ঘর — A–J নকশা-লেখ) v4.26 অনুযায়ী ইংরেজিই
+   থাকে: দুই অভিযোগ রাউন্ডের অক্ষর-সেট আলাদা, তাই দুটোই রক্ষা পায়। */
+const SERIAL_CAPS = new Set(['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T']);
 function tokenClass(L) {
   if (!L) return 'none';
-  if (L.length === 1) return 'single';
+  /* v4.22: a lone capital whose decode is a dictionary word (H → ঐ) is
+     strong — the 52-letter scan proves no other single letter decodes to
+     VOCAB. Lowercase singles stay. v4.24: 'I' (Bijoy ও — "মানব পাচার ও
+     অভিবাসী", complaint #7) is the one block-listed exception; prose lines
+     stay protected by the isEnglishProse gate above. */
+  if (L.length === 1) {
+    if (/^[A-Z]$/.test(L) && decodesToVocab(L) &&
+        (L === 'I' || !inBlock(L.toLowerCase()))) return 'strong';
+    return 'single';
+  }
   if (BIJOY_PROOF.has(L)) return 'strong';
   if (BIJOY_PROOF.has(L[0].toUpperCase() + L.slice(1))) return 'strong';
   if (BIJOY_PROOF.has(L[0].toLowerCase() + L.slice(1))) return 'strong';
+  /* v4.25: ALL-CAPS blocklisted words (MY, WE…) stay 'no' even when their
+     decode is a vocab word (গণ/বি) — the shield-escape inside Bijoy-classified
+     lines still decodes them (CD-A item 13: "…(26) MY †ckv`vi" → গণ পেশাদার),
+     but pass-2 rescue inside already-Bengali lines must not touch them
+     (FIR golden: "শহিদুল MY জড়িত আছে" — MY stays English) */
+  if (L.length >= 2 && L === L.toUpperCase() && inBlock(L.toLowerCase())) return 'no';
   if (decodesToVocab(L)) return 'strong';   // GK → এক (vocab proof beats caps)
   if (L === L.toUpperCase()) return 'no';      // ALL-CAPS = English (YEARS, VAT)
   if (/[A-Z]/.test(L.slice(1))) return 'strong';
   if (L.length >= 3 && !VOWEL_CHARS.test(L)) return 'strong';
-  if (/^[a-z]+$/.test(L) && L.length >= 3 && !ENGLISH_BLOCK.has(L)) return 'weak';
+  if (/^[a-z]+$/.test(L) && L.length >= 3 && !inBlock(L)) return 'weak';
   return 'no';
 }
 function lineLooksBijoy(line) {
+  /* v4.26: শুধু একটি বড় হরফের লাইন ("G", "H<ZWSP>", "I") = লেবেল/রেফারেন্স
+     নোড — বিজয়-প্রমাণ নয়, এবং স্টিকি বিজয়-ব্লকও বাড়াবে না */
+  if (/^[A-Z]$/.test(String(line).replace(/[\s\u200b-\u200d\ufeff]/g, ''))) return false;
   const toks = String(line).trim().split(/\s+/);
   const lt = toks.map(t => t.replace(/[^A-Za-z]/g, '')).filter(L => L);
   if (!lt.length || isEnglishProse(line)) return false;
   const cls = lt.map(tokenClass);
   if (cls.some(c => c === 'no')) return false;
   const strongAny = cls.includes('strong');
+  /* v4.24: when EVERY strong token is a lowercase ENGLISH_BLOCK word promoted
+     by vocab proof (my→সু, we→বি, ms→সং) and other letter tokens exist, the
+     line is English prose wearing one Bijoy-looking word — "my cat" stays
+     English. A solo such word ("we" → বি) remains the v4.22 tradeoff. */
+  if (strongAny) {
+    const si = [];
+    cls.forEach((c, i) => { if (c === 'strong') si.push(i); });
+    const nonBlock = si.some(i => !(/^[a-z]+$/.test(lt[i]) && inBlock(lt[i])));
+    if (!nonBlock && lt.length > si.length) return false;
+  }
   const digitAttached = toks.some(t => /[A-Za-z]/.test(t) && /[0-9]/.test(t));
   return strongAny || digitAttached;
+}
+
+/* ==================================================================
+ * v4.19: DOUBLE-CONVERSION DAMAGE REPAIR
+ * ------------------------------------------------------------------
+ * Real-world documents (পুলিশের এজাহার, ফরম) circulated through OLD
+ * converters that decoded English words inside Bijoy lines: "The
+ * Special Power Act" became "ঞযব ঝঢ়বপরধষ Power Act", "U.A.E" became
+ * "ট.অ.ঊ", "Redmi Android" became "জবফসর অহফৎড়রফ". The damage is
+ * exactly reversible — the garble re-encodes byte-exact to the word.
+ * We restore ONLY a curated, audited word list; every garble string
+ * is orthographically-impossible Bengali and never a vocabulary word,
+ * so genuine Bengali cannot match. Restored words keep their original
+ * capitalisation INCLUDING source typos ("Premuim", "Gurdian") — the
+ * converter restores, it never rewrites. Not curatable safely: lone
+ * single-letter garbles (ট is a real Bengali letter) — except the
+ * dotted "ট.অ.ঊ" trio (U.A.E), which never occurs in genuine text.
+ * ================================================================== */
+/* v4.23 += phone-shop brands from the CD কেস-ডায়েরী twins (all-caps decode
+   through the Bijoy map, verified byte-exact: INFINIX=ওঘঋওঘওঢ ITEL=ওঞঊখ
+   VIVO=ঠওঠঙ REDMI=জঊউগও SAMSUNG=ঝঅগঝটঘএ REALME=জঊঅখগঊ TECNO=ঞঊঈঘঙ
+   NOKIA=ঘঙকওঅ WALTON=ডঅখঞঙঘ PRIME=চজওগঊ pro=ঢ়ৎড় DELL=উঊখখ
+   PHONE=চঐঙঘঊ IPHONE=ওচঐঙঘঊ A03=অ০৩ C11=ঈ১১ core=পড়ৎব)
+   v4.24 += A13=অ১৩ (complaint #1) Arms=অৎসং Act=অপঃ (complaint #6 — force
+   paths restore them; the prose gate keeps them from being decoded at all)
+   v4.25 += Y16=ণ১৬ Y02A=ণ০২অ I5=ও৫ CORE=ঈঙজঊ (CD-A ফোন-তালিকা — ফোর্স
+   পথে মডেল-গার্বল মেরামত; ডিকোড-পথে মডেল-শিল্ড আগেই আটকায়) */
+const REPAIR_WORDS = ('The the Special special Power power Oris ORIS Imei IMEI Patron PATRON Gurdian Guardian Taste Silver Premuim Premium uQality Quality Blend Redmi Android MOND SLIMS APPLE STRAWBERRY Symphony Samsung Viber Nokia USA GREEN SMOKING MOJITO Discover Eagle INFINIX ITEL VIVO REDMI SAMSUNG REALME TECNO NOKIA WALTON PRIME pro DELL PHONE IPHONE A03 C11 core A13 Arms Act Y16 Y02A I5 CORE').split(/\s+/);
+const REPAIR_MAP = new Map();
+for (const w of REPAIR_WORDS) {
+  const g = bijoyToUnicode(w);
+  if (g === w || g.length < 3) continue;          // didn't decode / too short
+  if (!/[\u0980-\u09ff]/.test(g)) continue;       // garble must be Bengali
+  if (/[A-Za-z0-9]/.test(g)) continue;            // must be PURE Bengali
+  if (VOCAB_SET.has(g)) continue;                 // never touch a real word
+  if (!REPAIR_MAP.has(g)) REPAIR_MAP.set(g, w);
+  /* NFC never recomposes ড়/ঢ়/য় (Unicode composition exclusions), so
+     documents carry them EITHER composed (U+09DC) OR decomposed (ড+়) —
+     register both byte-forms of every garble containing them */
+  const gd = g.split('\u09dc').join('\u09a1\u09bc').split('\u09dd').join('\u09a2\u09bc').split('\u09df').join('\u09af\u09bc');
+  if (gd !== g && !VOCAB_SET.has(gd) && !REPAIR_MAP.has(gd)) REPAIR_MAP.set(gd, w);
+}
+const _resc = st => st.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const REPAIR_RE = REPAIR_MAP.size
+  ? new RegExp('([\u0980-\u09ff]*)(' + [...REPAIR_MAP.keys()].sort((a, b) => b.length - a.length).map(_resc).join('|') + ')([\u0980-\u09ff]*)', 'g')
+  : null;
+const REPAIR_DOTTED = /([\u0980-\u09ff]*)\u099f\.\u0985\.\u098a([\u0980-\u09ff]*)/g;   // ট.অ.ঊ = U.A.E
+/* v4.23: two-character brand remnants CANNOT join REPAIR_MAP safely — ঘঙ=NO,
+   গও=MI, ঐ৯=H9, ৬ঝ=6S are each plausible Bengali fragments on their own and
+   sit below the len≥3 gate (which stays). They are repaired ONLY when glued
+   to a neighbour the word pass has just repaired — order matters: REPAIR_SEQ
+   runs AFTER the word passes, so 'ঢ়ৎড়' is already 'pro' and 'জঊউগও' is
+   already 'REDMI' when these anchors look for them. */
+const REPAIR_SEQ = [
+  [/(\bIMEI\s*)ঘঙ/g, '$1NO'],
+  [/(\bREDMI\s+)গও/g, '$1MI'],
+  [/ঐ৯(\s+pro\b)/g, 'H9$1'],
+  [/ও-(PHONE|IPHONE)\b/g, 'I-$1'],
+  [/((?:^|[\s(])I-?PHONE\s*)(?:৬|6)ঝ/g, '$16S'],
+  /* v4.25: ফোর্স-পথে IPHONE-গার্বল মেরামত "ও PHONE" দেয় (IPHONE-এর I আলাদা
+     ও-তে ভাঙে) — নোঙরযুক্ত অবস্থায় সেটাও IPHONE 6S-এ ফেরে */
+  [/(^|\s)ও PHONE\s+(?:৬|6)ঝ/g, '$1IPHONE 6S'],
+  /* v4.25: "CORE I5"-এর ফোর্স-গার্বল ও৫ (I→ও + 5→৫) — len<3 গেটের বাইরে,
+     তাই ইংরেজি-শব্দ-নোঙরযুক্ত স্পেশাল: "CORE ও৫" → "CORE I5" */
+  [/([A-Za-z]{2,}\s+)ও৫(?![\u0980-\u09ff])/g, '$1I5'],
+  /* v4.24: the force path has no shield, so a citation letter garbles —
+     "19A." → "১৯অ" (A→অ). A digit-run + অ at a word end is never genuine
+     Bengali ("১৯অধ্যায়" keeps its অ — the lookahead demands a word end) */
+  [/([\u09e6-\u09ef]+)অ(?![\u0980-\u09ff])/g, m => bn2asc(m.slice(0, -1)) + 'A'],
+];
+/* v4.20: ন্তু/স্তু (š‘/¯‘) বনাম ন্থ/স্থ (š’/¯’ বা মেরামত-হওয়া ASCII ') —
+   ফ্ল্যাটেনিংয়ের পরে বাইট-দ্ব্যর্থতা থাকতে পারে। ক্যানোনিকাল বাইট আগে;
+   একটি ঘটনা শুধু তখনই ওলটে যখন তার নিজের রূপের পক্ষে তার বাংলা-রানের
+   ভিতরে কোনো VOCAB শব্দ নেই কিন্তু বিকল্প রূপের পক্ষে আছে। */
+function flipLigature(run, from, to) {
+  let out = run, pos = 0;
+  for (;;) {
+    const idx = out.indexOf(from, pos);
+    if (idx === -1) break;
+    const origOk = VOCAB_BN.some(w => w.includes(from) && out.includes(w));
+    if (!origOk) {
+      const cand = out.slice(0, idx) + to + out.slice(idx + from.length);
+      if (VOCAB_BN.some(w => w.includes(to) && cand.includes(w))) { out = cand; pos = idx + to.length; continue; }
+    }
+    pos = idx + from.length;
+  }
+  return out;
+}
+function disambigLigatures(text) {
+  return text.replace(/[\u0980-\u09ff]+/g, run => {
+    let r = run;
+    r = flipLigature(r, 'ন্তু', 'ন্থ'); r = flipLigature(r, 'ন্থ', 'ন্তু');
+    r = flipLigature(r, 'স্তু', 'স্থ'); r = flipLigature(r, 'স্থ', 'স্তু');
+    return r;
+  });
+}
+function repairDoubleDamage(line) {
+  if (!REPAIR_RE || !/[\u0980-\u09ff]/.test(line)) return line;
+  const step = st => st.replace(REPAIR_RE, (m, pre, gar, post) => {
+    if (VOCAB_SET.has(m)) return m;               // whole run is a real word
+    const en = REPAIR_MAP.get(gar);
+    return (pre ? pre + ' ' : '') + en + (post ? ' ' + post : '');
+  });
+  let out = step(line);
+  out = step(out);   // second pass: two garbles fused without space
+  for (const [re, rep] of REPAIR_SEQ) out = out.replace(re, rep);   // v4.23 anchored 2-char remnants
+  return disambigLigatures(out.replace(REPAIR_DOTTED, (m, pre, post) => (pre ? pre + ' ' : '') + 'U.A.E' + (post ? ' ' + post : '')));
 }
 
 /* split a line into unicode-runs and "other" chunks */
@@ -1353,7 +1768,15 @@ function convert(text, target, opts = {}) {
   if (target === 'unicode') { try { text = String(text).normalize('NFC'); } catch { text = String(text); } }
   if (opts.force) {   // classic single-encoding mode (original tool behaviour)
     return {
-      text: target === 'unicode' ? bijoyToUnicode(String(text)) : unicodeToBijoy(String(text)),
+      /* v4.24: forced decodes honour the digits-follow-script rule too —
+         IMEI/model numbers inside Bijoy paragraphs keep ASCII digits
+         (complaints #2-3: the docx safety-net/segment force path used to
+         emit "IMEI NO-৩৫১৪৬৫০৭০৪৪৭১৫৬" where the source said 351…).
+         v4.25: force goes through decodeShielded — the English-safety
+         shields (labels "I = গলি", model ids "Y16", lone capitals "M",
+         block words) now protect forced lines too; repairDoubleDamage still
+         restores pre-existing garbles from old converters */
+      text: target === 'unicode' ? scriptAwareDigits(repairDoubleDamage(decodeShielded(String(text)))) : unicodeToBijoy(String(text)),
       stats: { forced: true },
     };
   }
@@ -1387,9 +1810,9 @@ function convert(text, target, opts = {}) {
       : ch => BIJOY_STRONG.has(ch) || BIJOY_WEAK_SAFE.has(ch);
 
     if (target === 'unicode') {
-      if (kind === 'bijoy') return scriptAwareDigits(decodeShielded(line));
+      if (kind === 'bijoy') return scriptAwareDigits(repairDoubleDamage(decodeShielded(line)));
       if (kind === 'mixed') {
-        return scriptAwareDigits(rescueProvenWords(splitMixed(line).map(p => {
+        return scriptAwareDigits(repairDoubleDamage(rescueProvenWords(splitMixed(line).map(p => {
           if (p.type === 'uni') return p.text;
           if (![...p.text].some(isMarker)) {
             /* v4.16 — v4.6-style aggression with an english-proof gate: a
@@ -1403,14 +1826,14 @@ function convert(text, target, opts = {}) {
           }
           const [neutral, bijoyPart] = trimEnglishPrefix(p.text, isMarker);
           return neutral + decodeShielded(bijoyPart);
-        }).join('')));
+        }).join(''))));
       }
       // neutral lines: whole-line decode when the Bijoy signature is
       // unambiguous; otherwise word-level rescue; else byte-identical
-      if (kind === 'neutral' && lineLooksBijoy(line)) return scriptAwareDigits(decodeShielded(line));
+      if (kind === 'neutral' && lineLooksBijoy(line)) return scriptAwareDigits(repairDoubleDamage(decodeShielded(line)));
       // unicode / neutral lines: proof-dictionary word rescue only —
       // every other character passes through byte-identical
-      return scriptAwareDigits(rescueProvenWords(line));
+      return scriptAwareDigits(repairDoubleDamage(rescueProvenWords(line)));
     }
     // target === 'bijoy'
     if (kind === 'unicode') return unicodeToBijoy(line);
@@ -1483,6 +1906,11 @@ const isPureAscii = t => !/[\u0980-\u09ff]/.test(t) && !lineStats(t).evidence;
 const COMMON_BN = new Set(VOCAB_BN);   // shared with engine proof-dictionary
 function rescuableAsBijoy(t, target) {
   if (!isPureAscii(t)) return false;
+  /* v4.24 (complaint #6): English prose inside a Bijoy block — "aviv- The
+     Arms Act-1878 Gi 19A." — must NOT be force-decoded just because a
+     neighbour paragraph carries Bijoy evidence. The neutral path rescues
+     ধারা/এর word-by-word while The/Arms/Act/19A stay English. */
+  if (isEnglishProse(t)) return false;
   /* exact BIJOY_PROOF token hit — the strongest proof there is */
   if (t.split(/[^A-Za-z]+/).some(w => w.length >= 2 && BIJOY_PROOF.has(w))) return true;
   const out = convert(t, target, { force: true }).text;
@@ -1515,6 +1943,27 @@ function cleanJunk(t, target, report) {
   const cleaned = t.replace(re, '');
   if (cleaned !== t && report) report.junk++;
   return cleaned;
+}
+/* v4.23 — SALVAGE BEFORE DELETE: damaged nodes often carry literal markup as
+   text at the START and real content right after it
+   ('</w:r><w:t …>উপরোক্ত আলামত…'). The old rule (isJunk prefix → whole node
+   dropped) deleted that real text with the markup — a CD কেস-ডায়েরী file lost
+   an entire Bijoy paragraph that way (only its tail run "য়। বিষয়টি ডায়রীতে
+   নোট রাখিলাম।" survived). A node is now deleted ONLY when salvage leaves
+   nothing behind. Salvage = complete tag chains (cleanJunk) + a truncated
+   leading tag that never closes its '>' — the strip is bounded to tag-inside
+   characters so Bengali/Bijoy glyphs always stop it; real text is never eaten.
+   U→B (target 'bijoy') keeps the old strict rule: its damaged tags embed
+   Bengali chars, so a tag start there cannot be told from real content. */
+const PARTIAL_TAG_BIJOY = /^\s*<\/?w:[a-zA-Z][a-zA-Z0-9:=\s"'./_-]{0,150}/;
+function salvageJunkText(t, target, report) {
+  const cleaned = cleanJunk(t, target, report);
+  if (target !== 'unicode') return cleaned;
+  return cleaned.replace(PARTIAL_TAG_BIJOY, () => { if (report) report.junk++; return ''; });
+}
+function deadJunkNode(t, target) {
+  if (target === 'unicode') return salvageJunkText(t, target).trim() === '';
+  return isJunk(t, target) || cleanJunk(t, target) === '';
 }
 const PARA_RE = /<w:p(?:\s[^>]*[^/>])?>[\s\S]*?<\/w:p>/g;   // self-closing <w:p/> is NOT an opener
 const RUN_RE = /<w:r(?:\s[^>]*)?>(?:(?!<\/w:r>)[\s\S])*<\/w:r>/g;
@@ -1577,7 +2026,7 @@ function sweepJunkRuns(para, target, report) {
   for (let i = rs.length - 1; i >= 0; i--) {
     const m = rs[i];
     const t = decodeXml(m[4]);
-    if (t.trim() && (isJunk(t, target) || cleanJunk(t, target) === '')) {
+    if (t.trim() && deadJunkNode(t, target)) {
       if (report) report.junk++;
       out = out.slice(0, m.index) + `${m[1]}${m[2] || ''}<w:tab/></w:r>` + out.slice(m.index + m[0].length);
     }
@@ -1647,7 +2096,7 @@ function transformParagraph(para, target, opts, report) {
     const joined = g.runs.map(r => decodeXml(r.text)).join('');
     if (joined === '') continue;
     const first = g.runs[0];
-    const cleaned = cleanJunk(joined, target, report);
+    const cleaned = salvageJunkText(joined, target, report);
     const runForce = opts.force
       || ((opts.paraBijoy || opts.paraMixed) && rescuableAsBijoy(cleaned, target))
       || ((opts.paraBijoy || opts.paraBn) && target === 'unicode' && forceableNumberChunk(cleaned));
@@ -1663,8 +2112,8 @@ function transformParagraph(para, target, opts, report) {
     if (open.includes('w:done=')) return m;            // already converted above
     const t = decodeXml(txt);
     if (!t.trim()) return m;
-    if (isJunk(t, target) || cleanJunk(t, target) === '') { if (report) report.junk++; return `${open.replace(/>$/, ' w:done="1">')}${close}`; }
-    const cleaned = cleanJunk(t, target, report);
+    if (deadJunkNode(t, target)) { if (report) report.junk++; return `${open.replace(/>$/, ' w:done="1">')}${close}`; }
+    const cleaned = salvageJunkText(t, target, report);
     const runForce = opts.force
       || ((opts.paraBijoy || opts.paraMixed) && rescuableAsBijoy(cleaned, target))
       || ((opts.paraBijoy || opts.paraBn) && target === 'unicode' && forceableNumberChunk(cleaned));
@@ -1751,8 +2200,8 @@ function transformXml(xml, target, opts, report) {
   xml = xml.replace(A_T_RE, (m, open, txt, close) => {
     const t = decodeXml(txt);
     if (!t.trim()) return m;
-    if (isJunk(t, target) || cleanJunk(t, target) === '') { if (report) report.junk++; return `${open}${close}`; }
-    const cleaned = cleanJunk(t, target, report);
+    if (deadJunkNode(t, target)) { if (report) report.junk++; return `${open}${close}`; }
+    const cleaned = salvageJunkText(t, target, report);
     const c = convert(cleaned, target, opts).text;
     if (c === t && cleaned === t) return m;
     if (report) report.converted++;
@@ -1764,8 +2213,8 @@ function transformXml(xml, target, opts, report) {
     if (open.includes('w:done=')) return m;
     const t = decodeXml(txt);
     if (!t.trim()) return m;
-    if (isJunk(t, target) || cleanJunk(t, target) === '') { if (report) report.junk++; return `${open}${close}`; }
-    const cleaned = cleanJunk(t, target, report);
+    if (deadJunkNode(t, target)) { if (report) report.junk++; return `${open}${close}`; }
+    const cleaned = salvageJunkText(t, target, report);
     const c = convert(cleaned, target, opts).text;
     if (c === t && cleaned === t) return m;
     if (report) report.converted++;
@@ -1864,7 +2313,7 @@ async function convertDocx(buf, target, opts = {}) {
 
 /* ===== bundled: app.js ===== */
 /* আব্দুল্লাহ — UI layer (no jQuery, no globals, ES module) */
-const BUILD = 'v4.16 • ১৯-১০-২০২৬';   // build stamp — স্ট্যাটাস/কনসোলে দেখায় কোন বিল্ড চলছে
+const BUILD = 'v4.29 • ২২-১০-২০২৬';   // build stamp — স্ট্যাটাস/কনসোলে দেখায় কোন বিল্ড চলছে
 
 
 
@@ -1876,7 +2325,7 @@ const els = {
   badge: $('detectBadge'), hint: $('forceHint'), hintMsg: $('hintMsg'),
   toast: $('toast'),
   docxDrop: $('docxDrop'), docxFile: $('docxFile'),
-  docxStatus: $('docxStatus'), docxDir: $('docxDir'),
+  docxStatus: $('docxStatus'), docxDir: $('docxDir'), docxResults: $('docxResults'), diagBtn: $('diagBtn'),
 };
 
 const state = {
@@ -1983,6 +2432,36 @@ $('copyBtn').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText(els.out.value); toast('কপি হয়েছে ✓'); }
   catch { els.out.select(); document.execCommand('copy'); toast('কপি হয়েছে ✓'); }
 });
+$('diagBtn').addEventListener('click', async () => {
+  /* one-click complaint: build + direction + mode + detection + docx status
+     + the problem text (selection if any, else the input box) — so the
+     developer sees EXACT bytes instead of a description */
+  const v = els.in.value;
+  const sel = (els.in.selectionStart !== undefined && els.in.selectionEnd > els.in.selectionStart)
+    ? v.slice(els.in.selectionStart, els.in.selectionEnd) : '';
+  const lines = [
+    'আব্দুল্লাহ বাংলা কনভার্টার — অভিযোগ/ডায়াগনস্টিক',
+    'build: ' + BUILD,
+    'দিক: ' + (state.dir === 'u2b' ? 'ইউনিকোড → বিজয়' : 'বিজয় → ইউনিকোড') + ' | মোড: ' + (state.auto ? 'অটো' : 'ফোর্স'),
+    'ডিটেকশন: ' + els.badge.textContent,
+    'DOCX স্ট্যাটাস: ' + (els.docxStatus.hidden ? '(চালানো হয়নি)' : els.docxStatus.textContent),
+    'সমস্যা-লেখা' + (sel ? ' (নির্বাচিত অংশ)' : ' (ইনপুট বক্স)') + ':',
+    (sel || v).slice(0, 2000) || '(খালি)',
+  ];
+  const txt = lines.join('\n');
+  try {
+    await navigator.clipboard.writeText(txt);
+    toast('অভিযোগ কপি হয়েছে ✓ — ডেভেলপারকে পাঠান');
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = txt;
+    if (document.body && document.body.appendChild) document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); toast('অভিযোগ কপি হয়েছে ✓ — ডেভেলপারকে পাঠান'); }
+    catch { toast('কপি করা যায়নি — ব্রাউজার অনুমতি দেয়নি'); }
+    if (ta.remove) ta.remove();
+  }
+});
 $('pasteBtn').addEventListener('click', async () => {
   try {
     const t = await navigator.clipboard.readText();
@@ -2009,11 +2488,16 @@ function setDocxStatus(msg, kind) {
   els.docxStatus.className = 'docx-status' + (kind ? ' ' + kind : '');
 }
 
+const MAX_DOCX_MB = 100;   // v4.28: মেমোরি-নিরাপত্তা প্রহরা — বিশাল ফাইলে ট্যাব ক্র্যাশের আগে সতর্কবার্তা
 async function handleDocx(file) {
   if (!file) return;
   if (!/\.docx$/i.test(file.name)) {
     setDocxStatus('❌ শুধু .docx ফাইল চলবে (পুরনো .doc ফরম্যাট নয়) — Word-এ File → Save As → .docx করুন', 'err');
     return toast('.docx ফাইল দিন');
+  }
+  if (file.size > MAX_DOCX_MB * 1048576) {
+    setDocxStatus(`❌ "${file.name}" ${bn((file.size / 1048576).toFixed(0))} MB — ${bn(MAX_DOCX_MB)} MB-এর বড় ফাইল ব্রাউজারে নিরাপদে কনভার্ট করা যায় না। ফাইলটি ভাগ করে আবার দিন।`, 'err');
+    return toast('ফাইল অনেক বড়');
   }
   const target = state.dir === 'u2b' ? 'bijoy' : 'unicode';
   const mb = (file.size / 1048576).toFixed(1);
@@ -2047,12 +2531,74 @@ async function handleDocx(file) {
   }
 }
 
+/* ---------- batch conversion (v4.17): many .docx at once ----------
+ * One file at a time (memory-safe); a bad file never stops the rest;
+ * every converted file goes into ONE zip — browsers block many
+ * automatic downloads, a single zip always gets through. */
+async function handleDocxBatch(files) {
+  const target = state.dir === 'u2b' ? 'bijoy' : 'unicode';
+  const results = [];
+  els.docxResults.hidden = false;
+  els.docxResults.textContent = '';
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    setDocxStatus(`⏳ ব্যাচ ${bn(i + 1)}/${bn(files.length)}: "${file.name}" কনভার্ট হচ্ছে… বড় ফাইলে সময় লাগতে পারে`, 'busy');
+    if (!/\.docx$/i.test(file.name)) {
+      results.push({ name: file.name, ok: false, msg: '.docx ফাইল নয় — বাদ দেওয়া হয়েছে' });
+    } else if (file.size > MAX_DOCX_MB * 1048576) {
+      results.push({ name: file.name, ok: false, msg: `${MAX_DOCX_MB} MB-এর বড় — বাদ দেওয়া হয়েছে` });
+    } else {
+      try {
+        const buf = await file.arrayBuffer();
+        const out = await convertDocx(buf, target, { force: !state.auto });
+        const rep = out.report || {};
+        results.push({
+          name: file.name, ok: true, rep, bytes: out,
+          outName: `${file.name.replace(/\.docx$/i, '')}-${target}.docx`,
+        });
+      } catch (e) {
+        results.push({ name: file.name, ok: false, msg: (e && e.message) || 'কনভার্ট করা যায়নি' });
+      }
+    }
+    await new Promise(r => setTimeout(r, 0));   // let the UI breathe between files
+  }
+  for (const r of results) {
+    const row = document.createElement('div');
+    row.className = 'docx-res ' + (r.ok ? 'ok' : 'err');
+    row.textContent = r.ok
+      ? `✅ ${r.name} → ${r.outName} — ${bn(r.rep.converted || 0)} টেক্সট-নোড কনভার্ট${r.rep.leftover ? ` • ⚠ ${bn(r.rep.leftover)} অবশিষ্ট` : ''}${r.rep.suspect ? ` • 🔎 ${bn(r.rep.suspect)} সন্দেহভাজন` : ''}${r.rep.junk ? ` • 🧹 ${bn(r.rep.junk)} জাঙ্ক` : ''}${r.rep.repaired ? ' • ⚠ মেরামত করা হয়েছে' : ''}`
+      : `❌ ${r.name} — ${r.msg}`;
+    els.docxResults.appendChild(row);
+  }
+  const okN = results.filter(r => r.ok).length;
+  if (!okN) {
+    setDocxStatus(`❌ ব্যাচ ব্যর্থ: ${bn(files.length)}টির একটি ফাইলও কনভার্ট হয়নি — উপরের তালিকা দেখুন`, 'err');
+    return toast('কোনো ফাইল কনভার্ট হয়নি');
+  }
+  try {
+    const zip = new JSZip();
+    for (const r of results) if (r.ok) zip.file(r.outName, r.bytes);
+    const zBytes = await zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+    const blob = new Blob([zBytes], { type: 'application/zip' });
+    const zipName = `abdullah-batch-${target}.zip`;
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: zipName });
+    a.click(); URL.revokeObjectURL(a.href);
+    const badN = results.length - okN;
+    setDocxStatus(`✅ ব্যাচ সম্পন্ন: ${bn(okN)}টি ফাইল কনভার্ট → "${zipName}" ডাউনলোড হচ্ছে${badN ? ` • ❌ ${bn(badN)}টি ব্যর্থ (তালিকা দেখুন)` : ''} — ছবি, টেবিল, গ্রাফ ও ফরম্যাটিং অক্ষত`, 'ok');
+    toast('ব্যাচ ZIP ডাউনলোড শুরু ✓');
+  } catch (e) {
+    setDocxStatus(`⚠ কনভার্সন সফল কিন্তু ZIP তৈরি হয়নি (${(e && e.message) || 'অজানা ত্রুটি'}) — ফাইলগুলো একে একে আবার দিন`, 'err');
+  }
+}
+
 els.docxDrop.addEventListener('click', () => els.docxFile.click());
 els.docxDrop.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); els.docxFile.click(); }
 });
 els.docxFile.addEventListener('change', () => {
-  handleDocx(els.docxFile.files && els.docxFile.files[0]);
+  const files = els.docxFile.files;
+  if (files && files.length > 1) handleDocxBatch([...files]);
+  else handleDocx(files && files[0]);
   els.docxFile.value = '';   // একই ফাইল আবার নিলেও change যেন ধরা পড়ে
 });
 for (const ev of ['dragenter', 'dragover']) {
@@ -2061,7 +2607,11 @@ for (const ev of ['dragenter', 'dragover']) {
 for (const ev of ['dragleave', 'drop']) {
   els.docxDrop.addEventListener(ev, e => { e.preventDefault(); els.docxDrop.classList.remove('drag'); });
 }
-els.docxDrop.addEventListener('drop', e => handleDocx(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]));
+els.docxDrop.addEventListener('drop', e => {
+  const files = e.dataTransfer && e.dataTransfer.files;
+  if (files && files.length > 1) handleDocxBatch([...files]);
+  else handleDocx(files && files[0]);
+});
 
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); clearTimeout(debounceTimer); render('in'); }
@@ -2088,6 +2638,102 @@ $('themeToggle').addEventListener('click', () => {
   const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
   document.documentElement.dataset.theme = next;
   store.set('abdullah-theme', next);
+});
+
+/* ---------- নিজের শব্দতালিকা (v4.28): ব্যবহারকারীর নিজের-যোগ-করা ইংরেজি শব্দ ----------
+ * যে শব্দগুলো এখানে যোগ হয়, সেগুলো বিজয়-লাইনেও ইংরেজিতেই থাকে (vivo-র মতো)।
+ * তালিকা localStorage-এ সংরক্ষিত — ব্রাউজার বদলালে আবার যোগ করতে হবে। */
+const WORDS_KEY = 'abdullah-custom-words';
+function loadWords() {
+  let list = [];
+  try { list = JSON.parse(store.get(WORDS_KEY) || '[]'); } catch { list = []; }
+  if (!Array.isArray(list)) list = [];
+  return setCustomBlock(list);
+}
+function renderWords() {
+  const box = $('wordList');
+  const list = getCustomBlock();
+  box.textContent = '';
+  $('wordCount').textContent = bn(list.length) + 'টি শব্দ';
+  if (!list.length) {
+    const em = document.createElement('span');
+    em.className = 'words-empty';
+    em.textContent = 'এখনো কোনো শব্দ যোগ করা হয়নি — উপরে লিখে Enter চাপুন';
+    box.appendChild(em);
+    return;
+  }
+  for (const w of list) {
+    const chip = document.createElement('span');
+    chip.className = 'word-chip';
+    chip.textContent = w;
+    const x = document.createElement('button');
+    x.className = 'word-x';
+    x.textContent = '✕';
+    x.title = '"' + w + '" মুছুন';
+    x.setAttribute('aria-label', w + ' মুছুন');
+    x.addEventListener('click', () => removeWord(w));
+    chip.appendChild(x);
+    box.appendChild(chip);
+  }
+}
+function saveWords(list) {
+  setCustomBlock(list);
+  store.set(WORDS_KEY, JSON.stringify(getCustomBlock()));
+  renderWords();
+}
+function addWord() {
+  const inp = $('wordInput');
+  const w = inp.value.trim().toLowerCase();
+  if (!w) return toast('আগে একটি শব্দ লিখুন');
+  if (!/^[a-z0-9][a-z0-9 .+_-]*$/.test(w)) return toast('ইংরেজি অক্ষর/সংখ্যা দিয়ে লিখুন (বাংলা শব্দ এখানে খাটে না)');
+  const list = getCustomBlock();
+  if (list.includes(w)) { inp.value = ''; return toast('শব্দটি আগেই তালিকায় আছে'); }
+  if (list.length >= 200) return toast('তালিকা পূর্ণ (২০০) — আগে কিছু মুছুন');
+  list.push(w);
+  saveWords(list);
+  inp.value = '';
+  toast('"' + w + '" যোগ হয়েছে ✓ — এখন থেকে ইংরেজিই থাকবে');
+  render('in');   // বর্তমান লেখা সাথে সাথে নতুন তালিকা মেনে কনভার্ট হোক
+}
+function removeWord(w) {
+  saveWords(getCustomBlock().filter(x => x !== w));
+  toast('"' + w + '" মুছে ফেলা হয়েছে');
+  render('in');
+}
+$('wordAddBtn').addEventListener('click', addWord);
+$('wordInput').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addWord(); } });
+
+/* ---------- ডোনেট মডাল (v4.29): বিকাশ পার্সোনাল — নম্বর + কপি + নির্দেশনা ----------
+ * ব্যক্তিগত বিকাশ নম্বরের কোনো পাবলিক পেমেন্ট-লিংক হয় না, তাই কাল্পনিক লিংক নয়;
+ * নির্ভরযোগ্য পথ = অ্যাপে Send Money। ডোনেশন ঐচ্ছিক — কোনো ফিচার এর সাথে যুক্ত নয়। */
+const BKASH_NUM = '01721100716';
+const donateModal = $('donateModal');
+function openDonate() {
+  donateModal.hidden = false;
+  donateModal.setAttribute('aria-hidden', 'false');
+  try { $('donateClose').focus(); } catch {}
+}
+function closeDonate() {
+  donateModal.hidden = true;
+  donateModal.setAttribute('aria-hidden', 'true');
+}
+$('donateBtn').addEventListener('click', openDonate);
+$('donateClose').addEventListener('click', closeDonate);
+donateModal.addEventListener('click', e => { if (e.target === donateModal) closeDonate(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !donateModal.hidden) closeDonate(); });
+$('donateCopy').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(BKASH_NUM);
+    toast('বিকাশ নম্বর কপি হয়েছে ✓ — Send Money-তে পেস্ট করুন');
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = BKASH_NUM;
+    if (document.body && document.body.appendChild) document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); toast('বিকাশ নম্বর কপি হয়েছে ✓ — Send Money-তে পেস্ট করুন'); }
+    catch { toast('কপি করা যায়নি — নম্বরটি মুখে লিখে নিন: ' + BKASH_NUM); }
+    if (ta.remove) ta.remove();
+  }
 });
 
 /* ---------- build stamp (কোন বিল্ড চলছে এক নজরে বোঝার জন্য) ---------- */
@@ -2117,6 +2763,8 @@ try {
   }
 } catch { /* ignore */ }
 
+loadWords();     // সংরক্ষিত নিজের শব্দতালিকা ইঞ্জিনে বসাও
+renderWords();
 setDir('b2u');   // ডিফল্ট: বিজয় → ইউনিকোড (অফিস ডকুমেন্টের সবচেয়ে সাধারণ চাহিদা)
 
 </script>
